@@ -19,6 +19,15 @@ func (c *Client) Push(push *PushRequest) (map[string]interface{}, error) {
 	return resp.Map()
 }
 
+func (c *Client) UndoPush(msgID int64) (map[string]interface{}, error) {
+	link := c.pushUrl + "/v3/push/" + string(msgID)
+	resp, err := c.request("DELETE", link, nil, false)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Map()
+}
+
 func (c *Client) GetCidPool(count int, cidType string) (map[string]interface{}, error) {
 	link := c.pushUrl + "/v3/push/cid?"
 	if count > 0 {
